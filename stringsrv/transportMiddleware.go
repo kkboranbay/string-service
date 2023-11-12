@@ -7,9 +7,7 @@ import (
 	"github.com/go-kit/log"
 )
 
-type TransportMiddleware func(endpoint.Endpoint) endpoint.Endpoint
-
-func transportLoggingMiddleware(logger log.Logger) TransportMiddleware {
+func transportLoggingMiddleware(logger log.Logger) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
 			logger.Log("msg", "calling endpoint")
