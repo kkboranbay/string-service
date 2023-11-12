@@ -12,8 +12,12 @@ import (
 func main() {
 	logger := log.NewLogfmtLogger(os.Stderr)
 
-	svc := stringService{}
+	// Use service middlewares for business-domain concerns, like logging and instrumentation.
+	var svc StringService
+	svc = stringService{}
+	svc = applicationLoggingMiddleware{logger, svc}
 
+	// Use endpoint middlewares for transport-domain concerns, like circuit breaking and rate limiting.
 	var uppercase endpoint.Endpoint
 	uppercase = makeUppercaseEndpoint(svc)
 	uppercase = transportLoggingMiddleware(log.With(logger, "method", "uppercase"))(uppercase)
