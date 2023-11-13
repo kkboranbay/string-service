@@ -38,7 +38,7 @@ func main() {
 	// Use service middlewares for business-domain concerns, like logging and instrumentation.
 	var svc StringService
 	svc = stringService{}
-	svc = applicationLoggingMiddleware{logger, svc}
+	svc = loggingMiddleware{logger, svc}
 	svc = instrumentingMiddleware{requestCount, requestLatency, countResult, svc}
 
 	// Use endpoint middlewares for transport-domain concerns, like circuit breaking and rate limiting.
